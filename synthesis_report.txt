@@ -1,0 +1,513 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2025  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)
+
+-- Running command `read_verilog uart_tx.v uart_rx.v uart_loopback.v; hierarchy -top uart_loopback; proc; opt; check; stat' --
+
+1. Executing Verilog-2005 frontend: uart_tx.v
+Parsing Verilog input from `uart_tx.v' to AST representation.
+Generating RTLIL representation for module `\uart_tx'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: uart_rx.v
+Parsing Verilog input from `uart_rx.v' to AST representation.
+Generating RTLIL representation for module `\uart_rx'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: uart_loopback.v
+Parsing Verilog input from `uart_loopback.v' to AST representation.
+Generating RTLIL representation for module `\uart_loopback'.
+Successfully finished Verilog frontend.
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1. Analyzing design hierarchy..
+Top module:  \uart_loopback
+Used module:     \uart_rx
+Used module:     \uart_tx
+Parameter \CLKS_PER_BIT = 16
+
+4.2. Executing AST frontend in derive mode using pre-parsed AST for module `\uart_rx'.
+Parameter \CLKS_PER_BIT = 16
+Generating RTLIL representation for module `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+Parameter \CLKS_PER_BIT = 16
+
+4.3. Executing AST frontend in derive mode using pre-parsed AST for module `\uart_tx'.
+Parameter \CLKS_PER_BIT = 16
+Generating RTLIL representation for module `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+
+4.4. Analyzing design hierarchy..
+Top module:  \uart_loopback
+Used module:     $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000
+Used module:     $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000
+
+4.5. Analyzing design hierarchy..
+Top module:  \uart_loopback
+Used module:     $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000
+Used module:     $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000
+Removing unused module `\uart_rx'.
+Removing unused module `\uart_tx'.
+Removed 2 unused modules.
+
+5. Executing PROC pass (convert processes to netlists).
+
+5.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed 1 dead cases from process $proc$uart_tx.v:22$70 in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Marked 6 switch rules as full_case in process $proc$uart_tx.v:22$70 in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Removed 1 dead cases from process $proc$uart_rx.v:21$43 in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Marked 7 switch rules as full_case in process $proc$uart_rx.v:21$43 in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Removed a total of 2 dead cases.
+
+5.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 3 redundant assignments.
+Promoted 3 assignments to connections.
+
+5.4. Executing PROC_INIT pass (extract init attributes).
+
+5.5. Executing PROC_ARST pass (detect async resets in processes).
+
+5.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~16 debug messages>
+
+5.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+     1/6: $0\clk_count[31:0]
+     2/6: $0\bit_index[3:0]
+     3/6: $0\data_reg[7:0]
+     4/6: $0\state[1:0]
+     5/6: $0\tx_busy[0:0]
+     6/6: $0\tx[0:0]
+Creating decoders for process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+     1/11: $3$lookahead\data_reg$42[7:0]$56
+     2/11: $3$bitselwrite$pos$uart_rx.v:57$41[2:0]$55
+     3/11: $2$lookahead\data_reg$42[7:0]$49
+     4/11: $2$bitselwrite$pos$uart_rx.v:57$41[2:0]$48
+     5/11: $0\rx_valid[0:0]
+     6/11: $1$lookahead\data_reg$42[7:0]$47
+     7/11: $0\clk_count[15:0]
+     8/11: $1$bitselwrite$pos$uart_rx.v:57$41[2:0]$46
+     9/11: $0\rx_data[7:0]
+    10/11: $0\bit_index[2:0]
+    11/11: $0\state[1:0]
+
+5.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+5.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\tx' using process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+  created $dff cell `$procdff$291' with positive edge clock.
+Creating register for signal `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\tx_busy' using process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+  created $dff cell `$procdff$292' with positive edge clock.
+Creating register for signal `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\state' using process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+  created $dff cell `$procdff$293' with positive edge clock.
+Creating register for signal `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\data_reg' using process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+  created $dff cell `$procdff$294' with positive edge clock.
+Creating register for signal `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\bit_index' using process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+  created $dff cell `$procdff$295' with positive edge clock.
+Creating register for signal `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\clk_count' using process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+  created $dff cell `$procdff$296' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\state' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$297' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\data_reg' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$298' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\bit_index' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$299' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\clk_count' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$300' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\rx_data' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$301' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.\rx_valid' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$302' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$bitselwrite$pos$uart_rx.v:57$41' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$303' with positive edge clock.
+Creating register for signal `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$lookahead\data_reg$42' using process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+  created $dff cell `$procdff$304' with positive edge clock.
+
+5.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+5.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 7 empty switches in `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+Removing empty process `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_tx.v:22$70'.
+Found and cleaned up 9 empty switches in `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+Removing empty process `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.$proc$uart_rx.v:21$43'.
+Cleaned up 16 empty switches.
+
+5.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module uart_loopback.
+Optimizing module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+<suppressed ~6 debug messages>
+Optimizing module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+<suppressed ~10 debug messages>
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module uart_loopback.
+Optimizing module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Optimizing module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\uart_loopback'.
+Finding identical cells in module `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~54 debug messages>
+Finding identical cells in module `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~69 debug messages>
+Removed a total of 41 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \uart_loopback..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$241.
+    dead port 2/2 on $mux $procmux$241.
+    dead port 1/2 on $mux $procmux$208.
+    dead port 2/2 on $mux $procmux$208.
+    dead port 1/5 on $pmux $procmux$202.
+    dead port 2/5 on $pmux $procmux$202.
+    dead port 3/5 on $pmux $procmux$202.
+    dead port 4/5 on $pmux $procmux$202.
+    dead port 5/5 on $pmux $procmux$202.
+    dead port 1/2 on $mux $procmux$200.
+    dead port 1/2 on $mux $procmux$192.
+    dead port 2/2 on $mux $procmux$192.
+    dead port 1/2 on $mux $procmux$189.
+    dead port 2/2 on $mux $procmux$189.
+    dead port 1/2 on $mux $procmux$187.
+    dead port 2/2 on $mux $procmux$187.
+    dead port 1/2 on $mux $procmux$183.
+    dead port 2/2 on $mux $procmux$180.
+Removed 18 multiplexer ports.
+<suppressed ~12 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \uart_loopback.
+  Optimizing cells in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+    New ctrl vector for $pmux cell $procmux$194: { $procmux$277_CMP $auto$opt_reduce.cc:137:opt_pmux$306 }
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Performed a total of 1 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\uart_loopback'.
+Finding identical cells in module `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~3 debug messages>
+Removed a total of 3 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$296 ($dff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$84_Y, Q = \clk_count, rval = 0).
+Adding SRST signal on $procdff$291 ($dff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$157_Y, Q = \tx, rval = 1'1).
+Adding EN signal on $auto$ff.cc:266:slice$308 ($sdff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$157_Y, Q = \tx).
+Adding SRST signal on $procdff$292 ($dff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$152_Y, Q = \tx_busy, rval = 1'0).
+Adding EN signal on $auto$ff.cc:266:slice$316 ($sdff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$150_Y, Q = \tx_busy).
+Adding SRST signal on $procdff$293 ($dff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$128_Y, Q = \state, rval = 2'00).
+Adding EN signal on $auto$ff.cc:266:slice$318 ($sdff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$128_Y, Q = \state).
+Adding SRST signal on $procdff$294 ($dff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$120_Y, Q = \data_reg, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:266:slice$334 ($sdff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = \tx_data, Q = \data_reg).
+Adding SRST signal on $procdff$295 ($dff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$105_Y, Q = \bit_index, rval = 4'0000).
+Adding EN signal on $auto$ff.cc:266:slice$338 ($sdff) from module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$105_Y, Q = \bit_index).
+Adding SRST signal on $procdff$302 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$211_Y, Q = \rx_valid, rval = 1'0).
+Adding SRST signal on $procdff$301 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$248_Y, Q = \rx_data, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:266:slice$357 ($sdff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = \data_reg, Q = \rx_data).
+Adding SRST signal on $procdff$297 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$269_Y, Q = \state, rval = 2'00).
+Adding EN signal on $auto$ff.cc:266:slice$361 ($sdff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$269_Y, Q = \state).
+Adding SRST signal on $procdff$298 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $2$lookahead\data_reg$42[7:0]$49, Q = \data_reg, rval = 8'00000000).
+Adding SRST signal on $procdff$299 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$260_Y, Q = \bit_index, rval = 3'000).
+Adding EN signal on $auto$ff.cc:266:slice$378 ($sdff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$260_Y, Q = \bit_index).
+Adding SRST signal on $procdff$300 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $procmux$226_Y, Q = \clk_count, rval = 16'0000000000000000).
+Setting constant 1-bit at position 0 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 1 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 2 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 3 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 4 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 5 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 6 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 7 on $procdff$304 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 0 on $procdff$303 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 1 on $procdff$303 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Setting constant 1-bit at position 2 on $procdff$303 ($dff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \uart_loopback..
+Finding unused cells or wires in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Removed 21 unused cells and 148 unused wires.
+<suppressed ~23 debug messages>
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+<suppressed ~2 debug messages>
+Optimizing module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+<suppressed ~3 debug messages>
+Optimizing module uart_loopback.
+
+6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \uart_loopback..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~10 debug messages>
+
+6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+    New ctrl vector for $pmux cell $procmux$226: { $procmux$198_CMP $procmux$197_CMP $auto$opt_reduce.cc:137:opt_pmux$388 }
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+    New ctrl vector for $pmux cell $procmux$84: { $procmux$111_CMP $auto$opt_reduce.cc:137:opt_pmux$390 }
+  Optimizing cells in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module \uart_loopback.
+Performed a total of 2 changes.
+
+6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~12 debug messages>
+Finding identical cells in module `\uart_loopback'.
+Removed a total of 5 cells.
+
+6.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $auto$ff.cc:266:slice$377 ($sdff) from module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 (D = $2$lookahead\data_reg$42[7:0]$49, Q = \data_reg).
+
+6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module \uart_loopback..
+Removed 0 unused cells and 5 unused wires.
+<suppressed ~2 debug messages>
+
+6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+<suppressed ~1 debug messages>
+Optimizing module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Optimizing module uart_loopback.
+
+6.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \uart_loopback..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~10 debug messages>
+
+6.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+    New ctrl vector for $pmux cell $procmux$194: $procmux$181_CMP
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module \uart_loopback.
+Performed a total of 1 changes.
+
+6.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+Finding identical cells in module `\uart_loopback'.
+Removed a total of 1 cells.
+
+6.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module \uart_loopback..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+6.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Optimizing module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Optimizing module uart_loopback.
+
+6.23. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.24. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \uart_loopback..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+<suppressed ~10 debug messages>
+
+6.25. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+  Optimizing cells in module \uart_loopback.
+Performed a total of 0 changes.
+
+6.26. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+Finding identical cells in module `$paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000'.
+Finding identical cells in module `\uart_loopback'.
+Removed a total of 0 cells.
+
+6.27. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.28. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000..
+Finding unused cells or wires in module \uart_loopback..
+
+6.29. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Optimizing module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000.
+Optimizing module uart_loopback.
+
+6.30. Finished OPT passes. (There is nothing left to do.)
+
+7. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000...
+Checking module $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000...
+Checking module uart_loopback...
+Found and reported 0 problems.
+
+8. Printing statistics.
+
+=== $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000 ===
+
+   Number of wires:                 57
+   Number of wire bits:            261
+   Number of public wires:           9
+   Number of public wire bits:      41
+   Number of ports:                  5
+   Number of port bits:             12
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 54
+     $add                            2
+     $and                            1
+     $eq                             6
+     $logic_not                      1
+     $mux                           13
+     $ne                             5
+     $neg                            1
+     $not                            4
+     $or                             1
+     $pmux                           3
+     $reduce_and                     4
+     $reduce_bool                    2
+     $reduce_or                      3
+     $sdff                           2
+     $sdffe                          4
+     $shift                          2
+
+=== $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000 ===
+
+   Number of wires:                 50
+   Number of wire bits:            213
+   Number of public wires:          10
+   Number of public wire bits:      59
+   Number of ports:                  6
+   Number of port bits:             13
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 46
+     $add                            2
+     $eq                             5
+     $logic_not                      1
+     $mux                           14
+     $ne                             6
+     $pmux                           4
+     $reduce_and                     4
+     $reduce_bool                    2
+     $reduce_or                      1
+     $sdff                           1
+     $sdffe                          5
+     $shiftx                         1
+
+=== uart_loopback ===
+
+   Number of wires:                  8
+   Number of wire bits:             22
+   Number of public wires:           8
+   Number of public wire bits:      22
+   Number of ports:                  8
+   Number of port bits:             22
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000      1
+     $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000      1
+
+=== design hierarchy ===
+
+   uart_loopback                     1
+     $paramod\uart_rx\CLKS_PER_BIT=s32'00000000000000000000000000010000      1
+     $paramod\uart_tx\CLKS_PER_BIT=s32'00000000000000000000000000010000      1
+
+   Number of wires:                115
+   Number of wire bits:            496
+   Number of public wires:          27
+   Number of public wire bits:     122
+   Number of ports:                 19
+   Number of port bits:             47
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                100
+     $add                            4
+     $and                            1
+     $eq                            11
+     $logic_not                      2
+     $mux                           27
+     $ne                            11
+     $neg                            1
+     $not                            4
+     $or                             1
+     $pmux                           7
+     $reduce_and                     8
+     $reduce_bool                    4
+     $reduce_or                      4
+     $sdff                           3
+     $sdffe                          9
+     $shift                          2
+     $shiftx                         1
+
+End of script. Logfile hash: af4f7a8959, CPU: user 0.06s system 0.00s, MEM: 15.07 MB peak
+Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)
+Time spent: 29% 6x opt_expr (0 sec), 15% 4x opt_clean (0 sec), ...
